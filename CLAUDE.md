@@ -105,7 +105,7 @@ The scheduled task `daily-key-list` (in `~/.claude/scheduled-tasks/`) fires week
    names triggered and the running P&L (each full position = 10% of equity). Include a one-line
    trigger/P&L summary per list in the report/summary.
 6. **Email the report:** run `python tools/send_report.py`. It builds `reports/key-list-report-<date>`
-   (`.md` + `.html`) and emails it to `as14109@nyu.edu` via SMTP. **Credentials are user-set env
+   (`.md` + `.html`) and emails it to the address in `MW_MAIL_TO` via SMTP. **Credentials are user-set env
    vars** (`MW_SMTP_USER`, `MW_SMTP_PASS` — a Gmail/Google **app password**, never the real password;
    never handled by Claude). If they aren't set the script still writes the report files and exits
    with a clear message — that's expected until the user configures them. Do not send email any other

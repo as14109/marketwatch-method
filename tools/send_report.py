@@ -11,7 +11,7 @@ Required env vars:
 Optional env vars (sensible defaults):
     MW_SMTP_HOST   default smtp.gmail.com
     MW_SMTP_PORT   default 587  (STARTTLS)
-    MW_MAIL_TO     default as14109@nyu.edu
+    MW_MAIL_TO     recipient address (required to send)
     MW_MAIL_FROM   default = MW_SMTP_USER
 
 Set them once (PowerShell, persists for your user):
@@ -51,7 +51,7 @@ def main():
     pwd = (_env("MW_SMTP_PASS") or "").replace(" ", "")  # Gmail app pw has no spaces
     host = _env("MW_SMTP_HOST", "smtp.gmail.com")
     port = int(_env("MW_SMTP_PORT", "587"))
-    to_addr = _env("MW_MAIL_TO", "as14109@nyu.edu")
+    to_addr = (_env("MW_MAIL_TO") or "").strip()
     from_addr = _env("MW_MAIL_FROM", user or "")
 
     md_path, html_path = build_report.main()
@@ -60,10 +60,10 @@ def main():
     # subject = first H1 minus the leading '# '
     subject = md_text.splitlines()[0].lstrip("# ").strip()
 
-    if not user or not pwd:
+    if not user or not pwd or not to_addr:
         print(
-            "\nEmail NOT sent — SMTP credentials not configured (this is expected until set up).\n"
-            "Set MW_SMTP_USER and MW_SMTP_PASS (see this file's header), then re-run.\n"
+            "\nEmail NOT sent — not configured (this is expected until set up).\n"
+            "Set MW_SMTP_USER, MW_SMTP_PASS, and MW_MAIL_TO (see this file's header), then re-run.\n"
             f"The report is ready at:\n  {md_path}\n  {html_path}")
         return  # clean exit; report files are still produced
 
