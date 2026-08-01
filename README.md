@@ -143,4 +143,7 @@ Credentials are read from your environment and never handled by the agent.
 ## Licence
 
 [MIT](LICENSE) for the method documentation and tooling. It does **not** grant rights to the excluded
-books or any member-gated content — supply those under your own subscription. Trade at your own risk.
+books or any member-gated content — supply those under your own subscription.
+
+See [NOTICE.md](NOTICE.md) for the full scope, third-party exclusions, and disclaimers.
+**Simulated/backtested throughout — not investment advice. Trade at your own risk.**

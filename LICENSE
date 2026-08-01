@@ -19,15 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTE ON SCOPE: this license covers the method documentation and tooling in this
-repository. It does NOT grant rights to any third-party material the tooling is
-designed to consume — in particular paid or member-gated watchlist services and
-copyrighted books, none of which are included here. Supply those yourself, under
-your own subscription and licence.
-
-NOT INVESTMENT ADVICE: all performance figures in this repository are simulated
-/ backtested. No live capital was traded. Nothing here is investment advice, a
-recommendation, or an offer to buy or sell any security. Trade at your own risk.
