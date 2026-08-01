@@ -12,6 +12,9 @@ updated: 2026-06-14
 caps, many sectors rising) signals a healthier rally than a narrow, mega-cap-only advance.
 
 ## Current state
+- **2026-06-24 — concentrated selloff, broad market resilient.** A **semiconductor crash (PHLX −7.9%)**
+  dragged the Nasdaq −2.2%, but the **S&P 500 Equal-Weight fell only −0.4%** and 6 sectors rose — classic
+  "bad index, ok breadth." Defensive rotation (staples/health/utilities/REITs); VIX +12% to 19.43. — [[2026-06-24-key-list]]
 - **2026-06-22 — re-broadening; Fed dip bought.** The 06-18 session reversed most of the FOMC selloff
   (Nasdaq +1.9%, info tech +2.7%); participation widened — **Russell 2000 +2.1%**, MidCap +1.1%,
   homebuilders +3.6%, mega-cap growth reasserted. Leadership (semis/AI) intact. — [[2026-06-22-key-list]]
@@ -34,6 +37,7 @@ caps, many sectors rising) signals a healthier rally than a narrow, mega-cap-onl
 - Entities: [[iwm]] (small-cap proxy)
 
 ## Source trail
+- [[2026-06-24-key-list]] — concentrated semi selloff (PHLX −7.9%); equal-weight resilient; defensive rotation.
 - [[2026-06-22-key-list]] — Fed dip bought; breadth re-broadened (R2K +2.1%), leadership intact.
 - [[2026-06-18-key-list]] — post-Fed distribution / narrowing; Mag7 weakness; rates up.
 - [[2026-06-15-key-list]] — documented the broadening participation and supporting index moves.

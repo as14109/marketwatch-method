@@ -2,7 +2,7 @@
 type: overview
 tags: [plan, portfolio, risk-management, process]
 created: 2026-06-18
-updated: 2026-06-18
+updated: 2026-07-09
 ---
 
 # $1M Portfolio Operating Plan
@@ -21,12 +21,20 @@ Only press risk in a confirmed uptrend (CAN SLIM "M"; [[market-breadth]]). Scale
 - **Healthy/broadening tape** → fully engaged, up to ~8–12 positions.
 - **Distribution / risk-off** (e.g. the post-FOMC [[kevin-warsh]] higher-for-longer overhang) → fewer names,
   smaller size, raise cash; favor only the cleanest base breakouts.
-- Current read in [[overview]] macro themes.
+- **Computed daily:** `tools/regime.py` writes an 8-point score + allowed-entries gate into [[overview]]
+  (7–8 → 3–5 new · 4–6 → 1–2 pilots · ≤3 → 0). Adopted 2026-07-07 per [[strategy-review-2026-07-07]] rec #1.
 
 ## 2. Universe & selection — *leading stocks in leading groups*
 - **Funnel:** the daily [[2026-06-22-key-list|Key List]] is the candidate pool ([[semiconductors]]/[[cybersecurity]]/AI infra leadership now).
 - **Quality filter:** [[trend-template]] (Stage 2: price > rising 150/200-day, 50 > 150 > 200, RS rank ≥ 70),
   [[can-slim]] ratings (composite, RS, A/D accumulation, group rank), clean [[vcp]] / [[chart-patterns]] bases.
+- **Discipline layer (v2.1, 2026-07-09, [[process-improvements-2026-07-09]]):** TT 8/8 only ·
+  skip triggers >8% above the 21-day SMA (extension) · no re-entry within ~5 sessions of a losing
+  stop-out (cooldown) · ≤12 names, ≤25% per group, ETFs half size · pilots (×½) in a NEUTRAL regime.
+  `tools/gated_book.py` simulates this book daily next to the every-signal book — the gap between
+  them measures what the discipline is worth. **The gated book is now the *book of record* (2026-07-11,
+  [[drift-review-2026-07-11]]): −0.66% vs the every-signal −3.59% over the chop); the watchlist Gated
+  column marks names it holds.**
 
 ## 3. Entry — *two doors, never chase*
 - **Initiating (breakout):** buy the pivot on a volume-backed base breakout (3rd Watch / Coiled Spring /
@@ -36,16 +44,17 @@ Only press risk in a confirmed uptrend (CAN SLIM "M"; [[market-breadth]]). Scale
   [[harmonic-patterns]] completion; near the [[value-area]]) — the lower-risk entry.
 - **Edge booster:** prefer pivots with [[cross-verification]] (9/21/50/200 MAs + prior highs cluster).
 
-## 4. Position sizing — *concentrate, risk-defined*
-- **Full position = 10% of equity = $100,000** (share counts in [[overview]]). Max ~8–12 names; never > 25% in one name.
-- **Build in ([[position-scaling]]):** pilot first ([[smart-add-on-strategy]], ~$20–35k), then add on confirmation
-  ([[pyramid-50-30-20-strategy]]: ~$50k → $30k → $20k to reach the full $100k). Add *less* than the current position; don't lift the average too far.
-- **Risk per full position** ≈ entry × 3% × $100k ≈ **$3,000 (0.3% of equity)**. Total open "heat" gated by results
-  ([[expectancy]]): ~1% when struggling → 2–3% when working.
+## 4. Position sizing — *concentrate, risk-defined* (v2, 2026-07-02)
+- **Full position = 5% of equity = $50,000** (share counts in [[overview]]). Target ~8–12 names; never > 25% in one name.
+- **Build in ([[position-scaling]]):** pilot first ([[smart-add-on-strategy]], ~$10–17k), then add on confirmation
+  ([[pyramid-50-30-20-strategy]]: ~$25k → $15k → $10k to reach the full $50k). Add *less* than the current position; don't lift the average too far.
+- **Risk per full position** = 5% stop × $50k = **$2,500 (0.25% of equity)** — lower than v1 despite the wider
+  stop (risk = size × stop, [[expectancy]]). Total open "heat" gated by results: ~1% when struggling → 2–3% when working.
 
-## 5. Exits & management — *never give back a big gain* ([[key-list-trade-rules]])
-1. **Initial stop −3%** (full exit). 2. **+5% → stop to breakeven.** 3. **+7% → sell 50%.** 4. **Trail the
-   remaining 50% under the 9-day EMA** (exit on a close below it). Sell into strength ([[selling-into-strength]]);
+## 5. Exits & management — *never give back a big gain* ([[key-list-trade-rules]] v2)
+1. **Initial stop −5%** (full exit; −3% sold the noise — [[stop-target-optimization-2026-07-02]]).
+2. **+7% → stop to breakeven.** 3. **+12% → sell 50%.** 4. **Trail the remaining 50% under the 9-day EMA**
+   (exit on a close below it). Sell into strength ([[selling-into-strength]]);
    cut early on violations (low-volume breakout + heavy-volume reversal, close below 20/50-day post-breakout).
 
 ## 6. Mindset & math
@@ -53,9 +62,19 @@ Only press risk in a confirmed uptrend (CAN SLIM "M"; [[market-breadth]]). Scale
 - Compound singles/doubles; avoid revenge trading; protect capital *and* confidence ([[eight-keys]]).
 
 ## 7. Daily process (automated — see [[overview]] & `CLAUDE.md`)
-1. Ingest the latest [[2026-06-22-key-list|Key List]] (member-gated; via browser). 2. `update_watchlist.py` → MAs,
-   rule levels, $100k share counts. 3. `backtest.py` → how prior lists' triggered names are performing.
-   4. `send_report.py` → emailed report. 5. Review: triggers, breakeven/+7% hits, trail-stop watch, regime.
+1. Ingest the latest Key List (member-gated; via browser). 2. `update_watchlist.py` → MAs, v2 rule levels,
+   $50k share counts. 3. `validate_list.py` (Trend Template) + **`regime.py` (8-point gate → allowed
+   entries)**. 4. `open_positions.py` → live book (⏳stale flags) + **`gated_book.py` → disciplined
+   parallel book**. 5. `backtest.py` → prior lists' P&L. 6. `send_report.py`
+   → emailed report (regime + action read w/ cooldown/extension/stale flags + watchlist + gated book +
+   open positions + order plan + backtest). 7. `tos_orders.py` →
+   DAY stop-limit brackets (pilot-sized in NEUTRAL, ETFs ×½) to review and place yourself.
+   8. Review: triggers, BE/+12% hits, trail watch, stale rotations.
+
+> **Validate every list against the wiki** (not just the Trend Template tool): regime gate (§1), leadership
+> group, [[vcp]]/base quality, [[cross-verification]], and the Key List's own ratings. Per
+> [[backtest-validation-2026-06-28]], mechanically buying every trigger in a choppy/distribution tape loses —
+> the filters and the regime gate are what make the edge real.
 
 ## 8. Review cadence
 Track win rate, avg win/avg loss, and expectancy via [[backtest-2026-06-18|the backtest]]; reallocate weak

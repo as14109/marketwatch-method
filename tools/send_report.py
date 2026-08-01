@@ -6,12 +6,13 @@ Sends via SMTP. Credentials are read from ENVIRONMENT VARIABLES that YOU set —
 this script never stores or prints your password.
 
 Required env vars:
-    MW_SMTP_USER   sending account (e.g. your Gmail / NYU Google address)
+    MW_SMTP_USER   sending account (e.g. your Gmail address)
     MW_SMTP_PASS   app password for that account (NOT your normal password)
+    MW_MAIL_TO     recipient for the report
 Optional env vars (sensible defaults):
     MW_SMTP_HOST   default smtp.gmail.com
     MW_SMTP_PORT   default 587  (STARTTLS)
-    MW_MAIL_TO     recipient address (required to send)
+    MW_MAIL_CC     optional comma-separated CC list
     MW_MAIL_FROM   default = MW_SMTP_USER
 
 Set them once (PowerShell, persists for your user):
@@ -51,7 +52,8 @@ def main():
     pwd = (_env("MW_SMTP_PASS") or "").replace(" ", "")  # Gmail app pw has no spaces
     host = _env("MW_SMTP_HOST", "smtp.gmail.com")
     port = int(_env("MW_SMTP_PORT", "587"))
-    to_addr = (_env("MW_MAIL_TO") or "").strip()
+    to_addr = (_env("MW_MAIL_TO") or user or "").strip()  # defaults to the sending account
+    cc_addr = (_env("MW_MAIL_CC") or "").strip()   # comma-separated CC list, optional
     from_addr = _env("MW_MAIL_FROM", user or "")
 
     md_path, html_path = build_report.main()
@@ -60,10 +62,10 @@ def main():
     # subject = first H1 minus the leading '# '
     subject = md_text.splitlines()[0].lstrip("# ").strip()
 
-    if not user or not pwd or not to_addr:
+    if not user or not pwd:
         print(
-            "\nEmail NOT sent — not configured (this is expected until set up).\n"
-            "Set MW_SMTP_USER, MW_SMTP_PASS, and MW_MAIL_TO (see this file's header), then re-run.\n"
+            "\nEmail NOT sent — SMTP credentials not configured (this is expected until set up).\n"
+            "Set MW_SMTP_USER and MW_SMTP_PASS (see this file's header), then re-run.\n"
             f"The report is ready at:\n  {md_path}\n  {html_path}")
         return  # clean exit; report files are still produced
 
@@ -71,14 +73,18 @@ def main():
     msg["Subject"] = subject
     msg["From"] = from_addr
     msg["To"] = to_addr
+    if cc_addr:
+        msg["Cc"] = cc_addr
     msg.attach(MIMEText(md_text, "plain", "utf-8"))
     msg.attach(MIMEText(html, "html", "utf-8"))
 
+    recipients = [a.strip() for a in to_addr.split(",") if a.strip()]
+    recipients += [a.strip() for a in cc_addr.split(",") if a.strip()]
     with smtplib.SMTP(host, port) as s:
         s.starttls()
         s.login(user, pwd)
-        s.sendmail(from_addr, [a.strip() for a in to_addr.split(",")], msg.as_string())
-    print(f"\nSent '{subject}' to {to_addr} (from {from_addr}).")
+        s.sendmail(from_addr, recipients, msg.as_string())
+    print(f"\nSent '{subject}' to {to_addr}" + (f" (cc {cc_addr})" if cc_addr else "") + f" (from {from_addr}).")
 
 
 if __name__ == "__main__":
