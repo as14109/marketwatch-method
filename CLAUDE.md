@@ -156,6 +156,18 @@ Each successful run:
    via `tools/pricecache.py`, a shared **daily on-disk cache** (`tools/.price_cache/`, gitignored) — the
    first tool of the day downloads ~440 tickers, the rest read from disk (routine ~8× faster). The 3-year
    window is required so even January entries have a valid 200-day SMA for the Trend Template.
+   **Session keying:** cache files are keyed by the latest *completed* session (`pricecache.latest_session()`),
+   not the wall-clock date. Keying on the calendar date meant a tool run **during** a session cached an
+   incomplete day and every later run that day silently reused it — see `tests/test_pricecache.py` for the
+   regression this guards.
+9c. **Export the transaction history:** run `python tools/export_transactions.py`. It exports every trade of
+   the current year from **both** books (book of record + every-signal benchmark) — entry date/price, exit
+   date/price, exit reason, size, % return, $ P&L — to `web/data/transactions.json`. **Sanity check:** each
+   book's printed total must reconcile to that book's `period_pnl` YTD figure (±$1 rounding); if it doesn't,
+   something upstream changed. Run on the **default 3-year price window** — do NOT set
+   `pricecache.PERIOD_OVERRIDE`: the benchmark admits signals chronologically until it hits the capital cap,
+   so a wider window changes which signals win the cap and produces a different book (a 5y run missed the
+   committed 2026 benchmark total by 19 points).
 10. **Generate the order plan:** run `python tools/tos_orders.py`. It prints a thinkorswim "1st Triggers
    OCO" bracket per name (buy-stop entry, −3% stop, +7% sell-half, $100k share counts) for the latest
    list. These are tickets for the user to review/place — Claude never places trades. Pair with the

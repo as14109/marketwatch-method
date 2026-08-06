@@ -1,0 +1,19 @@
+{
+  "COMM": {"reason": "no data", "first_list": "2026-01-05", "trigger": 18.40, "appearances": 3, "note": "Yahoo 404 on every window/period tried (2026-08-04 audit). Large active real-world ticker (CommScope) -- cause unconfirmed, symbol/exchange mapping suspected. Verify manually."},
+  "TERN": {"reason": "no data", "first_list": "2026-01-08", "trigger": 41.00, "appearances": 3, "note": "Yahoo 404 (2026-08-04 audit)."},
+  "BK": {"reason": "no data", "first_list": "2026-01-30", "trigger": 121.60, "appearances": 3, "note": "Yahoo 404 (2026-08-04 audit). Large active real-world ticker (BNY Mellon) -- symbol collision suspected. Verify manually."},
+  "ARMN": {"reason": "no data", "first_list": "2026-02-17", "trigger": 20.40, "appearances": 1, "note": "Yahoo 404 (2026-08-04 audit)."},
+  "X": {"reason": "no data", "first_list": "2026-04-16", "trigger": 54.92, "appearances": 1, "note": "Yahoo 404 (2026-08-04 audit). Plausibly a real 2025 delisting (US Steel / Nippon Steel acquisition)."},
+  "MXL": {"reason": "data suspect", "first_list": "2026-04-13", "trigger": 21.10, "appearances": 7, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit). Re-appeared on 7 lists -- worth a manual look at a possible unadjusted split."},
+  "DAVE": {"reason": "data suspect", "first_list": "2026-06-01", "trigger": 287.10, "appearances": 3, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "APLD": {"reason": "data suspect", "first_list": "2026-01-26", "trigger": 39.60, "appearances": 3, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "AGL": {"reason": "data suspect", "first_list": "2026-07-14", "trigger": 122.00, "appearances": 2, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "AXTI": {"reason": "data suspect", "first_list": "2026-01-14", "trigger": 22.30, "appearances": 2, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "UMAC": {"reason": "data suspect", "first_list": "2026-06-15", "trigger": 26.40, "appearances": 2, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "VISN": {"reason": "data suspect", "first_list": "2026-02-09", "trigger": 19.15, "appearances": 2, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "DEC": {"reason": "data suspect", "first_list": "2026-03-23", "trigger": 16.60, "appearances": 1, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "FSLY": {"reason": "data suspect", "first_list": "2026-04-01", "trigger": 29.20, "appearances": 1, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "GME": {"reason": "data suspect", "first_list": "2026-03-06", "trigger": 24.30, "appearances": 1, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "USAR": {"reason": "data suspect", "first_list": "2026-05-29", "trigger": 28.70, "appearances": 1, "note": "vendor >60% single-bar-jump guard tripped (2026-08-04 audit)."},
+  "BLZE": {"reason": "data suspect", "first_list": "2026-08-06", "trigger": 19.80, "appearances": 1, "note": "vendor >60% single-bar-jump guard tripped. Caught as a NEW uncatalogued exclusion by the 2026-08-04 guard on its first appearance -- the guard working as intended. Source describes an earnings gap then a sharp pullback, so a genuine large move is plausible; verify manually before assuming a vendor error."}
+}

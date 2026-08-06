@@ -22,6 +22,7 @@ try: sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except Exception: pass
 import update_watchlist as uw
 import yfinance as yf
+import pricecache
 # reuse the three shared total-calculators (they share backtest._dl_cache)
 from mtd_pnl import gated_total, ideal_total, full_book_total
 
@@ -34,8 +35,14 @@ def _equity():
 
 
 def _boundaries():
-    """(latest_close, prior_month_end, prior_quarter_end) as datetime.date."""
-    df = yf.download("SPY", period="10mo", interval="1d", progress=False, auto_adjust=True)
+    """(latest_close, prior_month_end, prior_quarter_end) as datetime.date.
+
+    Reads SPY through the SHARED price cache, not a direct yf.download. Fetching it
+    directly is what let this tool label output with the true latest session while the
+    book simulations underneath were reading a stale cached session — the 2026-08-05
+    incident. Both must see the same session or the label lies about the data.
+    """
+    df = pricecache.get("SPY")
     days = sorted(d.date() for d in df.index)
     today = days[-1]
     m0 = dt.date(today.year, today.month, 1)
@@ -85,9 +92,9 @@ def numbers(force=False):
         except Exception: cached = None
     if cached is not None:
         try:
-            df = yf.download("SPY", period="5d", interval="1d", progress=False, auto_adjust=True)
-            latest = sorted(d.date() for d in df.index)[-1].isoformat()
-            if cached.get("close") == latest:
+            # same session source the price cache keys on, so "is the cache current?"
+            # and "what data will the sims see?" can never disagree
+            if cached.get("close") == pricecache.latest_session():
                 return cached
         except Exception:
             return cached          # offline — reuse whatever we have
